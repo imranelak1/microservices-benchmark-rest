@@ -1,0 +1,78 @@
+{
+  "run_id": 38669914881,
+  "run_url": "https://github.com/imranelak1/microservices-benchmark-rest/actions/runs/38669914881",
+  "purpose": "Validation courte corrigée ; ce run ne constitue pas la campagne complète de performance.",
+  "commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+  "full_campaign_source_commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+  "test_sources_identical": true,
+  "test_sources": [
+    {
+      "path": "variant-a-jersey/src/test/java/ma/imrane/benchmark/CatalogHttpTest.java",
+      "git_blob": "d2f09bae2370d33a89d54996ee04ed3bb3e9cedc",
+      "sha256": "d0597757124a5bb9f56e1c1a447ade84b18f93c2de0a9123f30530ce51445beb"
+    },
+    {
+      "path": "variant-a-jersey/src/test/java/ma/imrane/benchmark/PaginationContractTest.java",
+      "git_blob": "ce57ae2afe2b3c3b95e5f7f28bcc44a5c28deb8b",
+      "sha256": "315f9570a01e6bd4b54062125e4dc287206a58855cb913a9280c0577c4d0dcb8"
+    },
+    {
+      "path": "variant-c-mvc/src/test/java/ma/imrane/benchmark/CatalogHttpTest.java",
+      "git_blob": "484d73ceadafc324af2a2e8ba22e08ed11a1ae90",
+      "sha256": "e0f8a9cc866c4b60e05dc03561b87c6e35699f06f47a98c46106d770d0e1ccbf"
+    },
+    {
+      "path": "variant-c-mvc/src/test/java/ma/imrane/benchmark/PaginationContractTest.java",
+      "git_blob": "ce57ae2afe2b3c3b95e5f7f28bcc44a5c28deb8b",
+      "sha256": "315f9570a01e6bd4b54062125e4dc287206a58855cb913a9280c0577c4d0dcb8"
+    },
+    {
+      "path": "variant-d-data-rest/src/test/java/ma/imrane/benchmark/CatalogHttpTest.java",
+      "git_blob": "484d73ceadafc324af2a2e8ba22e08ed11a1ae90",
+      "sha256": "e0f8a9cc866c4b60e05dc03561b87c6e35699f06f47a98c46106d770d0e1ccbf"
+    },
+    {
+      "path": "variant-d-data-rest/src/test/java/ma/imrane/benchmark/PaginationContractTest.java",
+      "git_blob": "ce57ae2afe2b3c3b95e5f7f28bcc44a5c28deb8b",
+      "sha256": "315f9570a01e6bd4b54062125e4dc287206a58855cb913a9280c0577c4d0dcb8"
+    }
+  ],
+  "status": "completed",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "benchmark (D)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/imranelak1/microservices-benchmark-rest/actions/runs/38669914881/job/116210368518",
+      "compile_and_test": {
+        "name": "Compiler et tester",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    },
+    {
+      "name": "benchmark (A)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/imranelak1/microservices-benchmark-rest/actions/runs/38669914881/job/116210368744",
+      "compile_and_test": {
+        "name": "Compiler et tester",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    },
+    {
+      "name": "benchmark (C)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/imranelak1/microservices-benchmark-rest/actions/runs/38669914881/job/116210368915",
+      "compile_and_test": {
+        "name": "Compiler et tester",
+        "status": "completed",
+        "conclusion": "success"
+      }
+    }
+  ],
+  "screenshot": "../screenshots/tests.png"
+}

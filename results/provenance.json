@@ -1,0 +1,84 @@
+{
+  "run_id": "38670648889",
+  "commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+  "artifacts": [
+    {
+      "run": "38670648889",
+      "repository": "imranelak1/microservices-benchmark-rest",
+      "commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+      "artifact": {
+        "id": 11947325921,
+        "node_id": "MDg6QXJ0aWZhY3QxMTk0NzMyNTkyMQ==",
+        "name": "rest-A-full",
+        "size_in_bytes": 44727601,
+        "url": "https://api.github.com/repos/imranelak1/microservices-benchmark-rest/actions/artifacts/11947325921",
+        "archive_download_url": "https://api.github.com/repos/imranelak1/microservices-benchmark-rest/actions/artifacts/11947325921/zip",
+        "expired": false,
+        "digest": "sha256:526b3075c182c567c8b312f9eef31b483ba224071bdcf24f8e24362d0746b541",
+        "created_at": "2026-10-15T03:48:05Z",
+        "updated_at": "2026-10-15T03:48:05Z",
+        "expires_at": "2026-10-16T03:48:02Z",
+        "workflow_run": {
+          "id": 38670648889,
+          "repository_id": 1420043981,
+          "head_repository_id": 1420043981,
+          "head_branch": "main",
+          "head_sha": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540"
+        }
+      },
+      "zip_sha256": "526b3075c182c567c8b312f9eef31b483ba224071bdcf24f8e24362d0746b541"
+    },
+    {
+      "run": "38670648889",
+      "repository": "imranelak1/microservices-benchmark-rest",
+      "commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+      "artifact": {
+        "id": 11947735716,
+        "node_id": "MDg6QXJ0aWZhY3QxMTk0NzczNTcxNg==",
+        "name": "rest-C-full",
+        "size_in_bytes": 52357985,
+        "url": "https://api.github.com/repos/imranelak1/microservices-benchmark-rest/actions/artifacts/11947735716",
+        "archive_download_url": "https://api.github.com/repos/imranelak1/microservices-benchmark-rest/actions/artifacts/11947735716/zip",
+        "expired": false,
+        "digest": "sha256:139099d0e11b6a8eb7438af5a4a3ac2a4f2d505798162a8323b7f6ddefbd6f47",
+        "created_at": "2026-10-15T03:48:39Z",
+        "updated_at": "2026-10-15T03:48:39Z",
+        "expires_at": "2026-10-16T03:48:37Z",
+        "workflow_run": {
+          "id": 38670648889,
+          "repository_id": 1420043981,
+          "head_repository_id": 1420043981,
+          "head_branch": "main",
+          "head_sha": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540"
+        }
+      },
+      "zip_sha256": "139099d0e11b6a8eb7438af5a4a3ac2a4f2d505798162a8323b7f6ddefbd6f47"
+    },
+    {
+      "run": "38670648889",
+      "repository": "imranelak1/microservices-benchmark-rest",
+      "commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+      "artifact": {
+        "id": 11947770589,
+        "node_id": "MDg6QXJ0aWZhY3QxMTk0Nzc3MDU4OQ==",
+        "name": "rest-D-full",
+        "size_in_bytes": 29535610,
+        "url": "https://api.github.com/repos/imranelak1/microservices-benchmark-rest/actions/artifacts/11947770589",
+        "archive_download_url": "https://api.github.com/repos/imranelak1/microservices-benchmark-rest/actions/artifacts/11947770589/zip",
+        "expired": false,
+        "digest": "sha256:39be21c33f6d41aa67fa0ac165989698efd1978ff0dcc1b68b7a2bc3dccb774e",
+        "created_at": "2026-10-15T03:48:00Z",
+        "updated_at": "2026-10-15T03:48:00Z",
+        "expires_at": "2026-10-16T03:47:59Z",
+        "workflow_run": {
+          "id": 38670648889,
+          "repository_id": 1420043981,
+          "head_repository_id": 1420043981,
+          "head_branch": "main",
+          "head_sha": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540"
+        }
+      },
+      "zip_sha256": "39be21c33f6d41aa67fa0ac165989698efd1978ff0dcc1b68b7a2bc3dccb774e"
+    }
+  ]
+}

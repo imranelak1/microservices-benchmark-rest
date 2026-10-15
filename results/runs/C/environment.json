@@ -1,0 +1,34 @@
+{
+  "variant": "C",
+  "mode": "full",
+  "scenarios": [
+    "READ-heavy",
+    "JOIN-filter",
+    "MIXED",
+    "HEAVY-body"
+  ],
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.35",
+  "visible_cpus": 4,
+  "runtime_budget_bytes": 8589934592,
+  "worker_limit_bytes": 5905580032,
+  "postgres_limit_bytes": 1073741824,
+  "influx_limit_bytes": 1073741824,
+  "prometheus_limit_bytes": 268435456,
+  "grafana_limit_bytes": 268435456,
+  "app_command": [
+    "java",
+    "-Xms64m",
+    "-Xmx160m",
+    "-XX:+UseG1GC",
+    "-jar",
+    "variant-c-mvc/target/variant-c-mvc-1.0.0.jar",
+    "--logging.level.root=WARN",
+    "--logging.level.org.springframework=WARN",
+    "--debug=false"
+  ],
+  "jmeter_heap": "192m",
+  "jmeter_sha512": "5978a1a35edb5a7d428e270564ff49d2b1b257a65e17a759d259a9283fc17093e522fe46f474a043864aea6910683486340706d745fcdf3db1505fd71e689083",
+  "github_run_id": "38670648889",
+  "started_unix": 1792031096.5152833,
+  "finished_unix": 1792036116.0448515
+}

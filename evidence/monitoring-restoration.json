@@ -1,0 +1,551 @@
+{
+  "github_run_id": "38670648889",
+  "github_run_url": "https://github.com/imranelak1/microservices-benchmark-rest/actions/runs/38670648889",
+  "source_commit": "d99b9c0bd5b9031dc0f0ba4ea1885721b2913540",
+  "method": "Original full-run InfluxDB backups and Prometheus snapshots restored into fresh isolated containers; actual Grafana browser screenshots, no new benchmark",
+  "variants": {
+    "A": {
+      "source_artifact": {
+        "id": 11947325921,
+        "name": "rest-A-full",
+        "zip_sha256": "526b3075c182c567c8b312f9eef31b483ba224071bdcf24f8e24362d0746b541"
+      },
+      "backup_sha256": {
+        "influx-backup.tgz": "384b6955930dd626fd2577a1dc2b342290a8e103c950d918845f334e483d42aa",
+        "prometheus-snapshot.tgz": "07c603f569f3613fb9763ce8783e92cbd8de2917e1340143928ba401816bc1b3"
+      },
+      "dashboard_source_sha256": "f75a8800521570a059230730959f8ac366e45ce984278ab187101657bd45323d",
+      "campaign_start_utc": "2026-10-15T02:24:23.592000Z",
+      "campaign_end_utc": "2026-10-15T03:48:01.246000Z",
+      "captured_at": "2026-10-15T03:54:08.950Z",
+      "screenshot": "screenshots/results.png",
+      "screenshot_sha256": "5273635ee464b1b1dfe352be4f5489e08900baf65ffda8a1f3fd0554204a481e",
+      "viewport_pixels": [
+        1600,
+        2100
+      ],
+      "timezone": "UTC",
+      "influx_count_points": 988,
+      "verified_requests_per_second_points": 984,
+      "req_s_relative_tolerance": 1e-06,
+      "req_s_max_observed_relative_error": 1.910447395963663e-07,
+      "total_requests": 3924015,
+      "total_errors": 0,
+      "scenario_reconciliation": {
+        "HEAVY-body": {
+          "influx_requests": 1833104,
+          "summary_requests": 1833104,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "JOIN-filter": {
+          "influx_requests": 1495744,
+          "summary_requests": 1495744,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "MIXED": {
+          "influx_requests": 247461,
+          "summary_requests": 247461,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "READ-heavy": {
+          "influx_requests": 347706,
+          "summary_requests": 347706,
+          "influx_errors": 0,
+          "summary_errors": 0
+        }
+      },
+      "csv": "evidence/monitoring/restored-a.csv",
+      "csv_sha256": "cd90cc2c19902e72e4c2073e25133200304a871922d936ace111b5d5741d77ef",
+      "successful_grafana_panel_queries": 9,
+      "grafana_requests": [
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR102",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR101",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR103",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR100",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR104",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR106",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR105",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR107",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR108",
+          "status": 200
+        }
+      ],
+      "datasource_health": {
+        "prometheus": {
+          "details": {
+            "application": "Prometheus",
+            "features": {
+              "rulerApiEnabled": false
+            }
+          },
+          "message": "Successfully queried the Prometheus API.",
+          "status": "OK"
+        },
+        "influxdb": {
+          "message": "datasource is working. 3 buckets found",
+          "status": "OK"
+        }
+      },
+      "prometheus_panel_points": {
+        "1": 1001,
+        "2": 1001,
+        "3": 1000,
+        "4": 1001,
+        "5": 1001,
+        "6": 1000
+      },
+      "grafana_influx_panel_points": {
+        "7": 987,
+        "8": 984,
+        "9": 987
+      },
+      "restored_prometheus_blocks": [
+        {
+          "ulid": "01M4YTS44DC63K79WZD9WFT6K1",
+          "minTime": 1792031024378,
+          "maxTime": 1792036081486,
+          "stats": {
+            "numSamples": 960234,
+            "numSeries": 999,
+            "numChunks": 7704
+          },
+          "compaction": {
+            "level": 1,
+            "sources": [
+              "01M4YTS44DC63K79WZD9WFT6K1"
+            ]
+          },
+          "version": 1
+        }
+      ],
+      "viewer_containers": [
+        {
+          "name": "course7-rest-viewer-full-a-influxdb",
+          "image": "influxdb:2.7.12",
+          "image_id": "sha256:b8d940ca9376f85118260f5b6bd236b8a00b1749c3350c5578d4cde8e27f31f2",
+          "memory_limit_bytes": 536870912,
+          "nano_cpus": 1000000000
+        },
+        {
+          "name": "course7-rest-viewer-full-a-prometheus",
+          "image": "prom/prometheus:v2.55.1",
+          "image_id": "sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3",
+          "memory_limit_bytes": 201326592,
+          "nano_cpus": 1000000000
+        },
+        {
+          "name": "course7-rest-viewer-full-a-grafana",
+          "image": "grafana/grafana:11.5.2",
+          "image_id": "sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7",
+          "memory_limit_bytes": 268435456,
+          "nano_cpus": 1000000000
+        }
+      ]
+    },
+    "C": {
+      "source_artifact": {
+        "id": 11947735716,
+        "name": "rest-C-full",
+        "zip_sha256": "139099d0e11b6a8eb7438af5a4a3ac2a4f2d505798162a8323b7f6ddefbd6f47"
+      },
+      "backup_sha256": {
+        "influx-backup.tgz": "7f0933b323639d91ca88ee42402156a9e90d693f12ada639b9e8e9b55e21cb78",
+        "prometheus-snapshot.tgz": "7dc0f702e336ccfecd3344826d551d262809510dd591770f4857d42deeed2847"
+      },
+      "dashboard_source_sha256": "f75a8800521570a059230730959f8ac366e45ce984278ab187101657bd45323d",
+      "campaign_start_utc": "2026-10-15T02:24:56.515000Z",
+      "campaign_end_utc": "2026-10-15T03:48:36.044000Z",
+      "captured_at": "2026-10-15T03:56:45.337Z",
+      "screenshot": "screenshots/grafana-c.png",
+      "screenshot_sha256": "dad5ff0d0816c1f3ff6ea0f5379a859b313478baffd0e1fa48823a7b7d8064f3",
+      "viewport_pixels": [
+        1600,
+        2100
+      ],
+      "timezone": "UTC",
+      "influx_count_points": 988,
+      "verified_requests_per_second_points": 984,
+      "req_s_relative_tolerance": 1e-06,
+      "req_s_max_observed_relative_error": 6.689899947072125e-07,
+      "total_requests": 4707607,
+      "total_errors": 0,
+      "scenario_reconciliation": {
+        "HEAVY-body": {
+          "influx_requests": 2178408,
+          "summary_requests": 2178408,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "JOIN-filter": {
+          "influx_requests": 1842039,
+          "summary_requests": 1842039,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "MIXED": {
+          "influx_requests": 284988,
+          "summary_requests": 284988,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "READ-heavy": {
+          "influx_requests": 402172,
+          "summary_requests": 402172,
+          "influx_errors": 0,
+          "summary_errors": 0
+        }
+      },
+      "csv": "evidence/monitoring/restored-c.csv",
+      "csv_sha256": "f479a1cbbd7782b0f0dc4417441d015ea527de98e697a9c748dc2e50a16afaf4",
+      "successful_grafana_panel_queries": 9,
+      "grafana_requests": [
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR102",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR101",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR100",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR104",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR103",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR105",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR107",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR106",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR108",
+          "status": 200
+        }
+      ],
+      "datasource_health": {
+        "prometheus": {
+          "details": {
+            "application": "Prometheus",
+            "features": {
+              "rulerApiEnabled": false
+            }
+          },
+          "message": "Successfully queried the Prometheus API.",
+          "status": "OK"
+        },
+        "influxdb": {
+          "message": "datasource is working. 3 buckets found",
+          "status": "OK"
+        }
+      },
+      "prometheus_panel_points": {
+        "1": 1001,
+        "2": 1001,
+        "3": 1000,
+        "4": 1001,
+        "5": 1001,
+        "6": 1000
+      },
+      "grafana_influx_panel_points": {
+        "7": 987,
+        "8": 984,
+        "9": 987
+      },
+      "restored_prometheus_blocks": [
+        {
+          "ulid": "01M4YTT64ZYH51EKFNXWY88DYV",
+          "minTime": 1792031041695,
+          "maxTime": 1792036113327,
+          "stats": {
+            "numSamples": 960354,
+            "numSeries": 999,
+            "numChunks": 7704
+          },
+          "compaction": {
+            "level": 1,
+            "sources": [
+              "01M4YTT64ZYH51EKFNXWY88DYV"
+            ]
+          },
+          "version": 1
+        }
+      ],
+      "viewer_containers": [
+        {
+          "name": "course7-rest-viewer-full-c-influxdb",
+          "image": "influxdb:2.7.12",
+          "image_id": "sha256:b8d940ca9376f85118260f5b6bd236b8a00b1749c3350c5578d4cde8e27f31f2",
+          "memory_limit_bytes": 536870912,
+          "nano_cpus": 1000000000
+        },
+        {
+          "name": "course7-rest-viewer-full-c-prometheus",
+          "image": "prom/prometheus:v2.55.1",
+          "image_id": "sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3",
+          "memory_limit_bytes": 201326592,
+          "nano_cpus": 1000000000
+        },
+        {
+          "name": "course7-rest-viewer-full-c-grafana",
+          "image": "grafana/grafana:11.5.2",
+          "image_id": "sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7",
+          "memory_limit_bytes": 268435456,
+          "nano_cpus": 1000000000
+        }
+      ],
+      "horizontal_scroll": 0,
+      "panel_title_positions": {
+        "CPU processus": {
+          "x": 25,
+          "y": 70,
+          "width": 104.90625,
+          "height": 22
+        },
+        "Heap JVM": {
+          "x": 813,
+          "y": 70,
+          "width": 71.078125,
+          "height": 22
+        },
+        "Temps GC": {
+          "x": 25,
+          "y": 374,
+          "width": 70.578125,
+          "height": 22
+        },
+        "Threads JVM": {
+          "x": 813,
+          "y": 374,
+          "width": 91.359375,
+          "height": 22
+        },
+        "Connexions Hikari actives": {
+          "x": 25,
+          "y": 678,
+          "width": 177.171875,
+          "height": 22
+        },
+        "Débit HTTP": {
+          "x": 813,
+          "y": 678,
+          "width": 78.203125,
+          "height": 22
+        }
+      }
+    },
+    "D": {
+      "source_artifact": {
+        "id": 11947770589,
+        "name": "rest-D-full",
+        "zip_sha256": "39be21c33f6d41aa67fa0ac165989698efd1978ff0dcc1b68b7a2bc3dccb774e"
+      },
+      "backup_sha256": {
+        "influx-backup.tgz": "db11895d3da93a4b21fd762574707861494a64352c6773f9eb985c7a771f9a9c",
+        "prometheus-snapshot.tgz": "8624265709baf30b165444f3ff3971315bfb512df352e392188c5d2a9cf603e5"
+      },
+      "dashboard_source_sha256": "f75a8800521570a059230730959f8ac366e45ce984278ab187101657bd45323d",
+      "campaign_start_utc": "2026-10-15T02:24:36.837000Z",
+      "campaign_end_utc": "2026-10-15T03:47:58.639000Z",
+      "captured_at": "2026-10-15T03:52:52.387Z",
+      "screenshot": "screenshots/grafana-d.png",
+      "screenshot_sha256": "93fa7c28005d7f1182d06532ea1a88cda83c8783296b47bef84afeb5c4854419",
+      "viewport_pixels": [
+        1600,
+        2100
+      ],
+      "timezone": "UTC",
+      "influx_count_points": 988,
+      "verified_requests_per_second_points": 984,
+      "req_s_relative_tolerance": 1e-06,
+      "req_s_max_observed_relative_error": 1.6120909398774547e-07,
+      "total_requests": 2368437,
+      "total_errors": 0,
+      "scenario_reconciliation": {
+        "HEAVY-body": {
+          "influx_requests": 949653,
+          "summary_requests": 949653,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "JOIN-filter": {
+          "influx_requests": 812517,
+          "summary_requests": 812517,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "MIXED": {
+          "influx_requests": 260758,
+          "summary_requests": 260758,
+          "influx_errors": 0,
+          "summary_errors": 0
+        },
+        "READ-heavy": {
+          "influx_requests": 345509,
+          "summary_requests": 345509,
+          "influx_errors": 0,
+          "summary_errors": 0
+        }
+      },
+      "csv": "evidence/monitoring/restored-d.csv",
+      "csv_sha256": "f655a7601465424909426354fb4b12efca8f0ea4435cef58e493f4e8116dda5e",
+      "successful_grafana_panel_queries": 9,
+      "grafana_requests": [
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR102",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR101",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=influxdb&requestId=SQR100",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR104",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR103",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR105",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR107",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR106",
+          "status": 200
+        },
+        {
+          "path": "/api/ds/query?ds_type=prometheus&requestId=SQR108",
+          "status": 200
+        }
+      ],
+      "datasource_health": {
+        "prometheus": {
+          "details": {
+            "application": "Prometheus",
+            "features": {
+              "rulerApiEnabled": false
+            }
+          },
+          "message": "Successfully queried the Prometheus API.",
+          "status": "OK"
+        },
+        "influxdb": {
+          "message": "datasource is working. 3 buckets found",
+          "status": "OK"
+        }
+      },
+      "prometheus_panel_points": {
+        "1": 998,
+        "2": 998,
+        "3": 997,
+        "4": 998,
+        "5": 998,
+        "6": 997
+      },
+      "grafana_influx_panel_points": {
+        "7": 987,
+        "8": 984,
+        "9": 987
+      },
+      "restored_prometheus_blocks": [
+        {
+          "ulid": "01M4YTS1JDKVH00M20Y4VAM95K",
+          "minTime": 1792031030149,
+          "maxTime": 1792036078732,
+          "stats": {
+            "numSamples": 954399,
+            "numSeries": 996,
+            "numChunks": 7680
+          },
+          "compaction": {
+            "level": 1,
+            "sources": [
+              "01M4YTS1JDKVH00M20Y4VAM95K"
+            ]
+          },
+          "version": 1
+        }
+      ],
+      "viewer_containers": [
+        {
+          "name": "course7-rest-viewer-full-d-influxdb",
+          "image": "influxdb:2.7.12",
+          "image_id": "sha256:b8d940ca9376f85118260f5b6bd236b8a00b1749c3350c5578d4cde8e27f31f2",
+          "memory_limit_bytes": 536870912,
+          "nano_cpus": 1000000000
+        },
+        {
+          "name": "course7-rest-viewer-full-d-prometheus",
+          "image": "prom/prometheus:v2.55.1",
+          "image_id": "sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3",
+          "memory_limit_bytes": 201326592,
+          "nano_cpus": 1000000000
+        },
+        {
+          "name": "course7-rest-viewer-full-d-grafana",
+          "image": "grafana/grafana:11.5.2",
+          "image_id": "sha256:8b37a2f028f164ce7b9889e1765b9d6ee23fec80f871d156fbf436d6198d32b7",
+          "memory_limit_bytes": 268435456,
+          "nano_cpus": 1000000000
+        }
+      ]
+    }
+  },
+  "totals": {
+    "restored_requests": 11000059,
+    "restored_errors": 0,
+    "verified_requests_per_second_points": 2952,
+    "successful_grafana_panel_queries": 27
+  }
+}
