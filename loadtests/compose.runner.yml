@@ -1,0 +1,47 @@
+name: rest-isolated
+services:
+  postgres:
+    image: postgres:16.15
+    mem_limit: 1g
+    cpus: 4
+    environment: {POSTGRES_USER: lab, POSTGRES_PASSWORD: labpass, POSTGRES_DB: benchmark}
+    ports: ["127.0.0.1:19432:5432"]
+    volumes: ["../database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U lab -d benchmark"]
+      interval: 3s
+      retries: 50
+  influxdb:
+    image: influxdb:2.7.12
+    mem_limit: 1g
+    cpus: 4
+    ports: ["127.0.0.1:19486:8086"]
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: student
+      DOCKER_INFLUXDB_INIT_PASSWORD: labpassword
+      DOCKER_INFLUXDB_INIT_ORG: perf
+      DOCKER_INFLUXDB_INIT_BUCKET: jmeter
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: course7-local-benchmark-token
+    healthcheck:
+      test: ["CMD", "influx", "ping"]
+      interval: 3s
+      retries: 50
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    mem_limit: 256m
+    cpus: 4
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports: ["127.0.0.1:19490:9090"]
+    command: ["--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus", "--web.enable-admin-api"]
+    volumes: ["../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+  grafana:
+    image: grafana/grafana:11.5.2
+    mem_limit: 256m
+    cpus: 4
+    ports: ["127.0.0.1:19430:3000"]
+    environment: {GF_SECURITY_ADMIN_USER: student, GF_SECURITY_ADMIN_PASSWORD: labpassword}
+    volumes:
+      - ../monitoring/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+      - ../monitoring/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - ../monitoring/dashboard.json:/var/lib/grafana/dashboards/benchmark.json:ro

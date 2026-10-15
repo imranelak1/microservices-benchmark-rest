@@ -1,0 +1,15 @@
+apiVersion: 1
+datasources:
+  - name: Prometheus
+    uid: prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+  - name: JMeter InfluxDB
+    uid: influxdb
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    jsonData: {version: Flux, organization: perf, defaultBucket: jmeter}
+    secureJsonData: {token: course7-local-benchmark-token}

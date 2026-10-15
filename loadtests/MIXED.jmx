@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='utf-8'?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="MIXED" enabled="true">
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables" enabled="true">
+        <collectionProp name="Arguments.arguments" />
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Defaults" enabled="true">
+        <stringProp name="HTTPSampler.domain">${__P(host,localhost)}</stringProp>
+        <stringProp name="HTTPSampler.port">${__P(port,19401)}</stringProp>
+        <stringProp name="HTTPSampler.protocol">http</stringProp>
+        <stringProp name="HTTPSampler.connect_timeout">5000</stringProp>
+        <stringProp name="HTTPSampler.response_timeout">15000</stringProp>
+      </ConfigTestElement>
+      <hashTree />
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Identifiants existants" enabled="true">
+        <stringProp name="filename">${__P(ids,loadtests/ids.csv)}</stringProp>
+        <stringProp name="fileEncoding">UTF-8</stringProp>
+        <stringProp name="variableNames">categoryId,itemId</stringProp>
+        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="ignoreFirstLine">true</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <boolProp name="stopThread">false</boolProp>
+      </CSVDataSet>
+      <hashTree />
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="JSON" enabled="true">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Content-Type</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree />
+      <BackendListener guiclass="BackendListenerGui" testclass="BackendListener" testname="InfluxDB v2" enabled="true">
+        <stringProp name="classname">org.apache.jmeter.visualizers.backend.influxdb.InfluxdbBackendListenerClient</stringProp>
+        <stringProp name="queueSize">5000</stringProp>
+        <elementProp name="arguments" elementType="Arguments">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="influxdbMetricsSender" elementType="Argument">
+              <stringProp name="Argument.name">influxdbMetricsSender</stringProp>
+              <stringProp name="Argument.value">org.apache.jmeter.visualizers.backend.influxdb.HttpMetricsSender</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="influxdbUrl" elementType="Argument">
+              <stringProp name="Argument.name">influxdbUrl</stringProp>
+              <stringProp name="Argument.value">${__P(influxUrl,http://localhost:19486/api/v2/write?org=perf&amp;bucket=jmeter&amp;precision=ns)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="influxdbToken" elementType="Argument">
+              <stringProp name="Argument.name">influxdbToken</stringProp>
+              <stringProp name="Argument.value">${__P(influxToken,course7-local-benchmark-token)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="application" elementType="Argument">
+              <stringProp name="Argument.name">application</stringProp>
+              <stringProp name="Argument.value">${__P(variant,A)}</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="measurement" elementType="Argument">
+              <stringProp name="Argument.name">measurement</stringProp>
+              <stringProp name="Argument.value">jmeter</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="summaryOnly" elementType="Argument">
+              <stringProp name="Argument.name">summaryOnly</stringProp>
+              <stringProp name="Argument.value">false</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="samplersRegex" elementType="Argument">
+              <stringProp name="Argument.name">samplersRegex</stringProp>
+              <stringProp name="Argument.value">.*</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="percentiles" elementType="Argument">
+              <stringProp name="Argument.name">percentiles</stringProp>
+              <stringProp name="Argument.value">50;95;99</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="testTitle" elementType="Argument">
+              <stringProp name="Argument.name">testTitle</stringProp>
+              <stringProp name="Argument.value">MIXED</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="eventTags" elementType="Argument">
+              <stringProp name="Argument.name">eventTags</stringProp>
+              <stringProp name="Argument.value">course7</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="TAG_scenario" elementType="Argument">
+              <stringProp name="Argument.name">TAG_scenario</stringProp>
+              <stringProp name="Argument.value">MIXED</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </elementProp>
+      </BackendListener>
+      <hashTree />
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="MIXED 50 utilisateurs" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Boucle" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">-1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(threads1,50)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,60)}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${__P(duration,600)}</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requête REST" enabled="true">
+          <stringProp name="HTTPSampler.path">${requestPath}</stringProp>
+          <stringProp name="HTTPSampler.method">${requestMethod}</stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${payload}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Mix pondéré et payloads" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">props.put('scenarioName','MIXED')
+
+import groovy.json.JsonOutput
+import java.util.concurrent.ThreadLocalRandom
+def random=ThreadLocalRandom.current()
+def choice=random.nextInt(100)
+def scenario=props.get('scenarioName') ?: 'READ-heavy'
+def cid=vars.get('categoryId') ?: '1'
+def iid=vars.get('itemId') ?: '1'
+def page=random.nextInt(1000)
+def path='/items?page='+page+'&amp;size=50'
+def method='GET'
+def label='GET /items'
+def payload=''
+def action=''
+switch(scenario) {
+  case 'READ-heavy':
+    if(choice&lt;50) break
+    if(choice&lt;70) {path='/items?categoryId='+cid+'&amp;page=0&amp;size=50';label='GET /items?categoryId'}
+    else if(choice&lt;90) {path='/categories/'+cid+'/items?page=0&amp;size=50';label='GET /categories/{id}/items'}
+    else {path='/categories?page='+random.nextInt(40)+'&amp;size=50';label='GET /categories'}
+    break
+  case 'JOIN-filter':
+    if(choice&lt;70) {path='/items?categoryId='+cid+'&amp;page=0&amp;size=50';label='GET /items?categoryId'}
+    else {path='/items/'+iid;label='GET /items/{id}'}
+    break
+  case 'MIXED':
+    if(choice&lt;40) break
+    if(choice&lt;60) action='POST_ITEM'
+    else if(choice&lt;70) action='PUT_ITEM'
+    else if(choice&lt;80) action=vars.get('createdId') ? 'DELETE_ITEM' : 'POST_ITEM'
+    else if(choice&lt;90) action='POST_CATEGORY'
+    else action='PUT_CATEGORY'
+    break
+  case 'HEAVY-body':action=choice&lt;50?'POST_ITEM':'PUT_ITEM';break
+}
+def uid=java.util.UUID.randomUUID().toString()
+def port=props.get('port') ?: '19401'
+def host=props.get('host') ?: 'localhost'
+def prefix='http://'+host+':'+port
+if(action.endsWith('ITEM')) {
+    method=action.startsWith('POST')?'POST':action.startsWith('PUT')?'PUT':'DELETE'
+    path='/items'+(method=='POST'?'':'/'+(vars.get('createdId')?:iid))
+    label=method+' /items'+(method=='POST'?'':'/{id}')
+    if(method!='DELETE') {
+        def data=[sku:'LOAD-'+uid,name:'Produit charge',price:25.50,stock:12,categoryId:Long.valueOf(cid),category:prefix+'/categories/'+cid,description:'']
+        def target=scenario=='HEAVY-body'?5120:1024
+        data.description='x'*Math.max(0,target-JsonOutput.toJson(data).getBytes('UTF-8').length)
+        payload=JsonOutput.toJson(data)
+    }
+} else if(action.endsWith('CATEGORY')) {
+    method=action.startsWith('POST')?'POST':'PUT';path='/categories'+(method=='POST'?'':'/'+cid)
+    label=method+' /categories'+(method=='POST'?'':'/{id}')
+    payload=JsonOutput.toJson([code:method=='POST'?'LOAD-'+uid.replace('-','').substring(0,27):'CAT-'+cid,name:'Catégorie charge'])
+}
+vars.put('requestPath',path);vars.put('requestMethod',method);vars.put('payload',payload);vars.put('action',action)
+sampler.setName(label)
+</stringProp>
+          </JSR223PreProcessor>
+          <hashTree />
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Conserver seulement les IDs créés par ce thread" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">if(prev.isSuccessful() &amp;&amp; vars.get('action')=='POST_ITEM') { def data=new groovy.json.JsonSlurper().parseText(prev.getResponseDataAsString());vars.put('createdId',data.id.toString()) }
+if(prev.isSuccessful() &amp;&amp; vars.get('action')=='DELETE_ITEM') vars.remove('createdId')</stringProp>
+          </JSR223PostProcessor>
+          <hashTree />
+        </hashTree>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="MIXED 100 utilisateurs" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Boucle" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">-1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">${__P(threads2,100)}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${__P(rampUp,60)}</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">${__P(duration,600)}</stringProp>
+        <stringProp name="ThreadGroup.delay">0</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Requête REST" enabled="true">
+          <stringProp name="HTTPSampler.path">${requestPath}</stringProp>
+          <stringProp name="HTTPSampler.method">${requestMethod}</stringProp>
+          <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${payload}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Mix pondéré et payloads" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">props.put('scenarioName','MIXED')
+
+import groovy.json.JsonOutput
+import java.util.concurrent.ThreadLocalRandom
+def random=ThreadLocalRandom.current()
+def choice=random.nextInt(100)
+def scenario=props.get('scenarioName') ?: 'READ-heavy'
+def cid=vars.get('categoryId') ?: '1'
+def iid=vars.get('itemId') ?: '1'
+def page=random.nextInt(1000)
+def path='/items?page='+page+'&amp;size=50'
+def method='GET'
+def label='GET /items'
+def payload=''
+def action=''
+switch(scenario) {
+  case 'READ-heavy':
+    if(choice&lt;50) break
+    if(choice&lt;70) {path='/items?categoryId='+cid+'&amp;page=0&amp;size=50';label='GET /items?categoryId'}
+    else if(choice&lt;90) {path='/categories/'+cid+'/items?page=0&amp;size=50';label='GET /categories/{id}/items'}
+    else {path='/categories?page='+random.nextInt(40)+'&amp;size=50';label='GET /categories'}
+    break
+  case 'JOIN-filter':
+    if(choice&lt;70) {path='/items?categoryId='+cid+'&amp;page=0&amp;size=50';label='GET /items?categoryId'}
+    else {path='/items/'+iid;label='GET /items/{id}'}
+    break
+  case 'MIXED':
+    if(choice&lt;40) break
+    if(choice&lt;60) action='POST_ITEM'
+    else if(choice&lt;70) action='PUT_ITEM'
+    else if(choice&lt;80) action=vars.get('createdId') ? 'DELETE_ITEM' : 'POST_ITEM'
+    else if(choice&lt;90) action='POST_CATEGORY'
+    else action='PUT_CATEGORY'
+    break
+  case 'HEAVY-body':action=choice&lt;50?'POST_ITEM':'PUT_ITEM';break
+}
+def uid=java.util.UUID.randomUUID().toString()
+def port=props.get('port') ?: '19401'
+def host=props.get('host') ?: 'localhost'
+def prefix='http://'+host+':'+port
+if(action.endsWith('ITEM')) {
+    method=action.startsWith('POST')?'POST':action.startsWith('PUT')?'PUT':'DELETE'
+    path='/items'+(method=='POST'?'':'/'+(vars.get('createdId')?:iid))
+    label=method+' /items'+(method=='POST'?'':'/{id}')
+    if(method!='DELETE') {
+        def data=[sku:'LOAD-'+uid,name:'Produit charge',price:25.50,stock:12,categoryId:Long.valueOf(cid),category:prefix+'/categories/'+cid,description:'']
+        def target=scenario=='HEAVY-body'?5120:1024
+        data.description='x'*Math.max(0,target-JsonOutput.toJson(data).getBytes('UTF-8').length)
+        payload=JsonOutput.toJson(data)
+    }
+} else if(action.endsWith('CATEGORY')) {
+    method=action.startsWith('POST')?'POST':'PUT';path='/categories'+(method=='POST'?'':'/'+cid)
+    label=method+' /categories'+(method=='POST'?'':'/{id}')
+    payload=JsonOutput.toJson([code:method=='POST'?'LOAD-'+uid.replace('-','').substring(0,27):'CAT-'+cid,name:'Catégorie charge'])
+}
+vars.put('requestPath',path);vars.put('requestMethod',method);vars.put('payload',payload);vars.put('action',action)
+sampler.setName(label)
+</stringProp>
+          </JSR223PreProcessor>
+          <hashTree />
+          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Conserver seulement les IDs créés par ce thread" enabled="true">
+            <stringProp name="scriptLanguage">groovy</stringProp>
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="script">if(prev.isSuccessful() &amp;&amp; vars.get('action')=='POST_ITEM') { def data=new groovy.json.JsonSlurper().parseText(prev.getResponseDataAsString());vars.put('createdId',data.id.toString()) }
+if(prev.isSuccessful() &amp;&amp; vars.get('action')=='DELETE_ITEM') vars.remove('createdId')</stringProp>
+          </JSR223PostProcessor>
+          <hashTree />
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

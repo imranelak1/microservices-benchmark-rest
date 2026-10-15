@@ -1,0 +1,224 @@
+[
+  {
+    "method": "POST",
+    "url": "http://localhost:19403/categories",
+    "status": 201,
+    "response": {
+      "id": 2001,
+      "code": "CHECK-D-1792027751",
+      "name": "Vérification réseau",
+      "updatedAt": "2026-10-15T02:29:11.684305",
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/categories/2001"
+        },
+        "category": {
+          "href": "http://localhost:19403/categories/2001"
+        },
+        "items": {
+          "href": "http://localhost:19403/categories/2001/items"
+        }
+      }
+    }
+  },
+  {
+    "method": "POST",
+    "url": "http://localhost:19403/items",
+    "status": 201,
+    "response": {
+      "id": 100001,
+      "sku": "CHECK-D",
+      "name": "Clavier réel",
+      "price": 25,
+      "stock": 10,
+      "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "updatedAt": "2026-10-15T02:29:11.9059248",
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "item": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "category": {
+          "href": "http://localhost:19403/items/100001/category"
+        }
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "url": "http://localhost:19403/items/100001",
+    "status": 200,
+    "response": {
+      "id": 100001,
+      "sku": "CHECK-D",
+      "name": "Clavier réel",
+      "price": 25.0,
+      "stock": 10,
+      "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "updatedAt": "2026-10-15T02:29:11.905925",
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "item": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "category": {
+          "href": "http://localhost:19403/items/100001/category"
+        }
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "url": "http://localhost:19403/items?categoryId=2001&size=50",
+    "status": 200,
+    "response": {
+      "_embedded": {
+        "items": [
+          {
+            "id": 100001,
+            "sku": "CHECK-D",
+            "name": "Clavier réel",
+            "price": 25.0,
+            "stock": 10,
+            "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "updatedAt": "2026-10-15T02:29:11.905925",
+            "_links": {
+              "self": {
+                "href": "http://localhost:19403/items/100001"
+              },
+              "item": {
+                "href": "http://localhost:19403/items/100001"
+              },
+              "category": {
+                "href": "http://localhost:19403/items/100001/category"
+              }
+            }
+          }
+        ]
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/items?categoryId=2001&page=0&size=50"
+        }
+      },
+      "page": {
+        "size": 50,
+        "totalElements": 1,
+        "totalPages": 1,
+        "number": 0
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "url": "http://localhost:19403/categories/2001/items?size=50",
+    "status": 200,
+    "response": {
+      "_embedded": {
+        "items": [
+          {
+            "id": 100001,
+            "sku": "CHECK-D",
+            "name": "Clavier réel",
+            "price": 25.0,
+            "stock": 10,
+            "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "updatedAt": "2026-10-15T02:29:11.905925",
+            "_links": {
+              "self": {
+                "href": "http://localhost:19403/items/100001"
+              },
+              "item": {
+                "href": "http://localhost:19403/items/100001"
+              },
+              "category": {
+                "href": "http://localhost:19403/items/100001/category"
+              }
+            }
+          }
+        ]
+      },
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/categories/2001/items?size=50"
+        }
+      }
+    }
+  },
+  {
+    "method": "PUT",
+    "url": "http://localhost:19403/items/100001",
+    "status": 200,
+    "response": {
+      "id": 100001,
+      "sku": "CHECK-D",
+      "name": "Clavier réel",
+      "price": 30,
+      "stock": 10,
+      "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "updatedAt": "2026-10-15T02:29:12.2782003",
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "item": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "category": {
+          "href": "http://localhost:19403/items/100001/category"
+        }
+      }
+    }
+  },
+  {
+    "method": "DELETE",
+    "url": "http://localhost:19403/items/100001",
+    "status": 200,
+    "response": {
+      "id": 100001,
+      "sku": "CHECK-D",
+      "name": "Clavier réel",
+      "price": 30.0,
+      "stock": 10,
+      "description": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "updatedAt": "2026-10-15T02:29:12.2782",
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "item": {
+          "href": "http://localhost:19403/items/100001"
+        },
+        "category": {
+          "href": "http://localhost:19403/items/100001/category"
+        }
+      }
+    }
+  },
+  {
+    "method": "DELETE",
+    "url": "http://localhost:19403/categories/2001",
+    "status": 200,
+    "response": {
+      "id": 2001,
+      "code": "CHECK-D-1792027751",
+      "name": "Vérification réseau",
+      "updatedAt": "2026-10-15T02:29:11.684305",
+      "_links": {
+        "self": {
+          "href": "http://localhost:19403/categories/2001"
+        },
+        "category": {
+          "href": "http://localhost:19403/categories/2001"
+        },
+        "items": {
+          "href": "http://localhost:19403/categories/2001/items"
+        }
+      }
+    }
+  }
+]

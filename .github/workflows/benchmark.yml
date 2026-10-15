@@ -1,0 +1,71 @@
+name: Campagne REST isolée
+
+on:
+  workflow_dispatch:
+    inputs:
+      smoke:
+        description: Vérification courte uniquement (exclue des mesures finales)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 130
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [A, C, D]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Compiler et tester
+        run: mvn -B verify -DargLine=-Xmx256m | tee build.log
+        env:
+          MAVEN_OPTS: -Xmx384m
+      - name: Préparer le matériel identique
+        run: |
+          mkdir -p results
+          lscpu > results/runner-cpu.txt
+          free -b > results/runner-memory.txt
+          java -version 2> results/java-version.txt
+          docker compose -f loadtests/compose.runner.yml up -d --wait
+          docker build -f loadtests/runner.Dockerfile -t rest-benchmark-runner .
+          docker compose -f loadtests/compose.runner.yml exec -T postgres psql -U lab -d benchmark -Atc "SELECT 'A',count(*),(SELECT count(*) FROM variant_a.item) FROM variant_a.category UNION ALL SELECT 'C',count(*),(SELECT count(*) FROM variant_c.item) FROM variant_c.category UNION ALL SELECT 'D',count(*),(SELECT count(*) FROM variant_d.item) FROM variant_d.category" > results/dataset-initial.csv
+      - name: Exécuter une seule variante sur ce runner
+        env:
+          VARIANT: ${{ matrix.variant }}
+          SMOKE: ${{ inputs.smoke }}
+        run: |
+          docker run --name benchmark-worker --network host --memory=5632m --cpus=4 \
+            -v "$PWD:/work" -w /work -e VARIANT -e SMOKE -e GITHUB_RUN_ID rest-benchmark-runner \
+            python3 loadtests/run_isolated.py
+      - name: Sauvegarder les séries de monitoring
+        if: always()
+        run: bash loadtests/export-monitoring.sh
+      - name: Conserver les mesures brutes et les tests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rest-${{ matrix.variant }}-${{ inputs.smoke && 'smoke' || 'full' }}
+          retention-days: 1
+          path: |
+            results/
+            build.log
+            **/surefire-reports/*.xml
+      - name: Arrêter uniquement cette campagne
+        if: always()
+        run: |
+          docker rm -f benchmark-worker || true
+          docker compose -f loadtests/compose.runner.yml down -v

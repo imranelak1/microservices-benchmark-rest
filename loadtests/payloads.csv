@@ -1,0 +1,3 @@
+kind,bytes,description
+LIGHT,1024,Padding calculé à 1024 octets dans le préprocesseur
+HEAVY,5120,Padding calculé à 5120 octets dans le préprocesseur
