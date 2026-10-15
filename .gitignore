@@ -3,3 +3,6 @@ target/
 *.iml
 .env
 *.log
+__pycache__/
+*.pyc
+run-output/

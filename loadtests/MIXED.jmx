@@ -163,12 +163,12 @@ switch(scenario) {
     else {path='/items/'+iid;label='GET /items/{id}'}
     break
   case 'MIXED':
-    if(choice&lt;40) break
-    if(choice&lt;60) action='POST_ITEM'
-    else if(choice&lt;70) action='PUT_ITEM'
-    else if(choice&lt;80) action=vars.get('createdId') ? 'DELETE_ITEM' : 'POST_ITEM'
-    else if(choice&lt;90) action='POST_CATEGORY'
-    else action='PUT_CATEGORY'
+    // Exact mix per thread: the two POSTs precede PUT and DELETE.
+    def cycle=['GET_ITEMS','GET_ITEMS','GET_ITEMS','GET_ITEMS','POST_ITEM','POST_ITEM','PUT_ITEM','DELETE_ITEM','POST_CATEGORY','PUT_CATEGORY']
+    def step=Integer.parseInt(vars.get('mixedStep') ?: '0')
+    action=cycle[step]
+    vars.put('mixedStep',((step+1)%cycle.size()).toString())
+    if(action=='GET_ITEMS') action=''
     break
   case 'HEAVY-body':action=choice&lt;50?'POST_ITEM':'PUT_ITEM';break
 }
@@ -178,7 +178,9 @@ def host=props.get('host') ?: 'localhost'
 def prefix='http://'+host+':'+port
 if(action.endsWith('ITEM')) {
     method=action.startsWith('POST')?'POST':action.startsWith('PUT')?'PUT':'DELETE'
-    path='/items'+(method=='POST'?'':'/'+(vars.get('createdId')?:iid))
+    // Never delete a seed/read ID if both preceding POSTs failed.
+    def targetId=vars.get('createdId') ?: (method=='DELETE' ? '-1' : iid)
+    path='/items'+(method=='POST'?'':'/'+targetId)
     label=method+' /items'+(method=='POST'?'':'/{id}')
     if(method!='DELETE') {
         def data=[sku:'LOAD-'+uid,name:'Produit charge',price:25.50,stock:12,categoryId:Long.valueOf(cid),category:prefix+'/categories/'+cid,description:'']
@@ -190,6 +192,8 @@ if(action.endsWith('ITEM')) {
     method=action.startsWith('POST')?'POST':'PUT';path='/categories'+(method=='POST'?'':'/'+cid)
     label=method+' /categories'+(method=='POST'?'':'/{id}')
     payload=JsonOutput.toJson([code:method=='POST'?'LOAD-'+uid.replace('-','').substring(0,27):'CAT-'+cid,name:'Catégorie charge'])
+    // JSON transport whitespace: 768 UTF-8 bytes, identical Category model in A/C/D.
+    payload+=' '*Math.max(0,768-payload.getBytes('UTF-8').length)
 }
 vars.put('requestPath',path);vars.put('requestMethod',method);vars.put('payload',payload);vars.put('action',action)
 sampler.setName(label)
@@ -267,12 +271,12 @@ switch(scenario) {
     else {path='/items/'+iid;label='GET /items/{id}'}
     break
   case 'MIXED':
-    if(choice&lt;40) break
-    if(choice&lt;60) action='POST_ITEM'
-    else if(choice&lt;70) action='PUT_ITEM'
-    else if(choice&lt;80) action=vars.get('createdId') ? 'DELETE_ITEM' : 'POST_ITEM'
-    else if(choice&lt;90) action='POST_CATEGORY'
-    else action='PUT_CATEGORY'
+    // Exact mix per thread: the two POSTs precede PUT and DELETE.
+    def cycle=['GET_ITEMS','GET_ITEMS','GET_ITEMS','GET_ITEMS','POST_ITEM','POST_ITEM','PUT_ITEM','DELETE_ITEM','POST_CATEGORY','PUT_CATEGORY']
+    def step=Integer.parseInt(vars.get('mixedStep') ?: '0')
+    action=cycle[step]
+    vars.put('mixedStep',((step+1)%cycle.size()).toString())
+    if(action=='GET_ITEMS') action=''
     break
   case 'HEAVY-body':action=choice&lt;50?'POST_ITEM':'PUT_ITEM';break
 }
@@ -282,7 +286,9 @@ def host=props.get('host') ?: 'localhost'
 def prefix='http://'+host+':'+port
 if(action.endsWith('ITEM')) {
     method=action.startsWith('POST')?'POST':action.startsWith('PUT')?'PUT':'DELETE'
-    path='/items'+(method=='POST'?'':'/'+(vars.get('createdId')?:iid))
+    // Never delete a seed/read ID if both preceding POSTs failed.
+    def targetId=vars.get('createdId') ?: (method=='DELETE' ? '-1' : iid)
+    path='/items'+(method=='POST'?'':'/'+targetId)
     label=method+' /items'+(method=='POST'?'':'/{id}')
     if(method!='DELETE') {
         def data=[sku:'LOAD-'+uid,name:'Produit charge',price:25.50,stock:12,categoryId:Long.valueOf(cid),category:prefix+'/categories/'+cid,description:'']
@@ -294,6 +300,8 @@ if(action.endsWith('ITEM')) {
     method=action.startsWith('POST')?'POST':'PUT';path='/categories'+(method=='POST'?'':'/'+cid)
     label=method+' /categories'+(method=='POST'?'':'/{id}')
     payload=JsonOutput.toJson([code:method=='POST'?'LOAD-'+uid.replace('-','').substring(0,27):'CAT-'+cid,name:'Catégorie charge'])
+    // JSON transport whitespace: 768 UTF-8 bytes, identical Category model in A/C/D.
+    payload+=' '*Math.max(0,768-payload.getBytes('UTF-8').length)
 }
 vars.put('requestPath',path);vars.put('requestMethod',method);vars.put('payload',payload);vars.put('action',action)
 sampler.setName(label)

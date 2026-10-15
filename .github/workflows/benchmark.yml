@@ -7,6 +7,11 @@ on:
         description: Vérification courte uniquement (exclue des mesures finales)
         type: boolean
         default: false
+      campaign:
+        description: Tous les scénarios, ou reprise des deux scénarios d'écriture
+        type: choice
+        options: [all, writes]
+        default: all
 
 permissions:
   contents: read
@@ -36,20 +41,24 @@ jobs:
           MAVEN_OPTS: -Xmx384m
       - name: Préparer le matériel identique
         run: |
-          mkdir -p results
-          lscpu > results/runner-cpu.txt
-          free -b > results/runner-memory.txt
-          java -version 2> results/java-version.txt
+          mkdir -p run-output
+          lscpu > run-output/runner-cpu.txt
+          free -b > run-output/runner-memory.txt
+          java -version 2> run-output/java-version.txt
+          docker version > run-output/docker-version.txt
+          docker compose version > run-output/compose-version.txt
+          uname -a > run-output/kernel-version.txt
           docker compose -f loadtests/compose.runner.yml up -d --wait
           docker build -f loadtests/runner.Dockerfile -t rest-benchmark-runner .
-          docker compose -f loadtests/compose.runner.yml exec -T postgres psql -U lab -d benchmark -Atc "SELECT 'A',count(*),(SELECT count(*) FROM variant_a.item) FROM variant_a.category UNION ALL SELECT 'C',count(*),(SELECT count(*) FROM variant_c.item) FROM variant_c.category UNION ALL SELECT 'D',count(*),(SELECT count(*) FROM variant_d.item) FROM variant_d.category" > results/dataset-initial.csv
+          docker compose -f loadtests/compose.runner.yml exec -T postgres psql -U lab -d benchmark -Atc "SELECT 'A',count(*),(SELECT count(*) FROM variant_a.item) FROM variant_a.category UNION ALL SELECT 'C',count(*),(SELECT count(*) FROM variant_c.item) FROM variant_c.category UNION ALL SELECT 'D',count(*),(SELECT count(*) FROM variant_d.item) FROM variant_d.category" > run-output/dataset-initial.csv
       - name: Exécuter une seule variante sur ce runner
         env:
           VARIANT: ${{ matrix.variant }}
           SMOKE: ${{ inputs.smoke }}
+          CAMPAIGN: ${{ inputs.campaign }}
         run: |
           docker run --name benchmark-worker --network host --memory=5632m --cpus=4 \
-            -v "$PWD:/work" -w /work -e VARIANT -e SMOKE -e GITHUB_RUN_ID rest-benchmark-runner \
+            -v "$PWD:/work" -w /work -e VARIANT -e SMOKE -e CAMPAIGN -e GITHUB_RUN_ID rest-benchmark-runner \
             python3 loadtests/run_isolated.py
       - name: Sauvegarder les séries de monitoring
         if: always()
@@ -61,7 +70,7 @@ jobs:
           name: rest-${{ matrix.variant }}-${{ inputs.smoke && 'smoke' || 'full' }}
           retention-days: 1
           path: |
-            results/
+            run-output/
             build.log
             **/surefire-reports/*.xml
       - name: Arrêter uniquement cette campagne

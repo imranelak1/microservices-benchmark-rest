@@ -18,7 +18,7 @@ import urllib.error
 import urllib.request
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "results"
+OUT = ROOT / "run-output"
 OUT.mkdir(exist_ok=True)
 LETTER = os.environ.get("VARIANT", "A")
 MODULE, PORT, MANAGEMENT = {
@@ -28,7 +28,11 @@ MODULE, PORT, MANAGEMENT = {
 }[LETTER]
 SMOKE = os.environ.get("SMOKE", "false").lower() == "true"
 STOP = threading.Event()
-SCENARIOS = ["READ-heavy", "JOIN-filter", "MIXED", "HEAVY-body"]
+CONTEXT = ("startup", "")
+CAMPAIGN = os.environ.get("CAMPAIGN", "all")
+if CAMPAIGN not in {"all", "writes"}:
+    raise ValueError("CAMPAIGN must be all or writes")
+SCENARIOS = ["MIXED", "HEAVY-body"] if CAMPAIGN == "writes" else ["READ-heavy", "JOIN-filter", "MIXED", "HEAVY-body"]
 ARCHIVE_SHA512 = "5978a1a35edb5a7d428e270564ff49d2b1b257a65e17a759d259a9283fc17093e522fe46f474a043864aea6910683486340706d745fcdf3db1505fd71e689083"
 
 
@@ -72,9 +76,10 @@ def validate():
 def monitor():
     with (OUT / "jvm-samples.csv").open("w", newline="") as output:
         writer = csv.writer(output)
-        writer.writerow(["timestamp", "variant", "cpu", "heap_bytes", "gc_pause_seconds_total", "threads", "hikari_active", "hikari_max"])
+        writer.writerow(["timestamp", "variant", "phase", "scenario", "cpu", "heap_bytes", "gc_pause_seconds_total", "threads", "hikari_active", "hikari_max"])
         while not STOP.is_set():
             try:
+                phase, scenario = CONTEXT
                 with urllib.request.urlopen(f"http://127.0.0.1:{MANAGEMENT}/actuator/prometheus", timeout=5) as response:
                     text = response.read().decode()
                 metrics = {}
@@ -84,7 +89,7 @@ def monitor():
                         metrics[key] = float(value)
                 def total(prefix, contains=""):
                     return sum(v for k, v in metrics.items() if k.startswith(prefix) and contains in k)
-                writer.writerow([time.time(), LETTER, total("process_cpu_usage"),
+                writer.writerow([time.time(), LETTER, phase, scenario, total("process_cpu_usage"),
                     total("jvm_memory_used_bytes{", 'area="heap"'), total("jvm_gc_pause_seconds_sum"),
                     total("jvm_threads_live_threads"), total("hikaricp_connections_active"), total("hikaricp_connections_max")])
                 output.flush()
@@ -95,6 +100,32 @@ def monitor():
 
 def percentile(values, fraction):
     return values[max(0, math.ceil(len(values) * fraction) - 1)]
+
+
+def set_phase(phase, scenario):
+    global CONTEXT
+    CONTEXT = (phase, scenario)
+    with (OUT / "phase-events.csv").open("a", newline="") as table:
+        csv.writer(table).writerow([time.time(), LETTER, phase, scenario])
+
+
+def reset_dataset(scenario):
+    """Give every scenario the same database, independent of previous throughput."""
+    env = dict(os.environ, PGPASSWORD="labpass")
+    psql = ["psql", "-h", "127.0.0.1", "-p", "19432", "-U", "lab", "-d", "benchmark", "-v", "ON_ERROR_STOP=1"]
+    with (OUT / f"{scenario}-database-reset.log").open("w") as log:
+        subprocess.run(psql + ["-f", "database/reset.sql"], cwd=ROOT, env=env,
+            stdout=log, stderr=subprocess.STDOUT, check=True)
+    schema = "variant_" + LETTER.lower()
+    counts = subprocess.check_output(psql + ["-At", "-c",
+        f"SELECT (SELECT count(*) FROM {schema}.category),(SELECT count(*) FROM {schema}.item)"], env=env, text=True).strip()
+    assert counts == "2000|100000", counts
+    set_phase("warmup", scenario)
+    for _ in range(50):
+        assert request("/items?page=0&size=50")["status"] == 200
+    with (OUT / "dataset-before-scenarios.csv").open("a", newline="") as table:
+        csv.writer(table).writerow([LETTER, scenario, time.time(), 2000, 100000, 50])
+    print("DATASET_RESET", LETTER, scenario, counts, "warmup=50 GET", flush=True)
 
 
 def summarize(path, scenario, writer):
@@ -132,6 +163,12 @@ def summarize(path, scenario, writer):
 
 
 def main():
+    if any(OUT.glob("*.jtl*")) or (OUT / "summary.csv").exists():
+        raise RuntimeError("Existing run-output; archive it before starting another campaign")
+    (OUT / "worker-java-version.txt").write_text(subprocess.check_output(
+        ["java", "-version"], stderr=subprocess.STDOUT, text=True), encoding="utf-8")
+    with (OUT / "phase-events.csv").open("w", newline="") as table:
+        csv.writer(table).writerow(["timestamp", "variant", "phase", "scenario"])
     archive = Path("/tmp/apache-jmeter-5.6.3.tgz")
     urllib.request.urlretrieve("https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz", archive)
     assert hashlib.sha512(archive.read_bytes()).hexdigest() == ARCHIVE_SHA512, "JMeter checksum mismatch"
@@ -142,12 +179,15 @@ def main():
         f"{MODULE}/target/{MODULE}-1.0.0.jar", "--logging.level.root=WARN",
         "--logging.level.org.springframework=WARN", "--debug=false"]
     metadata = {"variant": LETTER, "mode": "smoke" if SMOKE else "full",
+        "scenarios": SCENARIOS,
         "platform": platform.platform(), "visible_cpus": os.cpu_count(),
         "runtime_budget_bytes": 8 * 1024**3, "worker_limit_bytes": 5632 * 1024**2,
         "postgres_limit_bytes": 1024**3, "influx_limit_bytes": 1024**3,
         "prometheus_limit_bytes": 256 * 1024**2, "grafana_limit_bytes": 256 * 1024**2,
         "app_command": command, "jmeter_heap": "192m", "jmeter_sha512": ARCHIVE_SHA512,
         "github_run_id": os.environ.get("GITHUB_RUN_ID"), "started_unix": time.time()}
+    with (OUT / "dataset-before-scenarios.csv").open("w", newline="") as table:
+        csv.writer(table).writerow(["variant", "scenario", "timestamp", "categories", "items", "warmup_reads"])
     (OUT / "environment.json").write_text(json.dumps(metadata, indent=2))
     with (OUT / "application.log").open("w") as app_log:
         application = subprocess.Popen(command, cwd=ROOT, stdout=app_log, stderr=subprocess.STDOUT)
@@ -171,6 +211,8 @@ def main():
                 writer = csv.writer(table)
                 writer.writerow(["variant", "scenario", "users", "endpoint", "requests", "errors", "error_pct", "throughput_rps", "mean_ms", "p50_ms", "p95_ms", "p99_ms", "max_ms"])
                 for scenario in SCENARIOS:
+                    set_phase("reset", scenario)
+                    reset_dataset(scenario)
                     result = OUT / f"{LETTER}-{scenario}.jtl"
                     if result.exists() or Path(str(result) + ".gz").exists():
                         raise RuntimeError(f"Refusing to overwrite previous samples: {result}")
@@ -180,11 +222,14 @@ def main():
                     if SMOKE:
                         args += ["-Jduration=8", "-JrampUp=1", "-Jthreads1=2", "-Jthreads2=2", "-Jthreads3=2"]
                     print("START", LETTER, scenario, time.strftime("%H:%M:%S"), flush=True)
+                    set_phase("load", scenario)
                     with (OUT / f"{scenario}-summary.log").open("w") as log:
                         subprocess.run(args, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
+                    set_phase("aggregation", scenario)
                     summarize(result, scenario, writer)
                     table.flush()
                     print("DONE", LETTER, scenario, time.strftime("%H:%M:%S"), flush=True)
+                    set_phase("idle", scenario)
             metadata["finished_unix"] = time.time()
             (OUT / "environment.json").write_text(json.dumps(metadata, indent=2))
         finally:
